@@ -43,6 +43,7 @@ router.get("/", (req, res) => {
   //redirect home page---------
   res.redirect("/listings");
 });
+
 router.get(
   "/update-form/:id",
   isLoggedIn,

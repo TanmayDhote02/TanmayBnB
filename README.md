@@ -1,4 +1,4 @@
-# Airbnb-Inspired Full-Stack Web Application 🚀
+# Tanmaybnb-Inspired Full-Stack Web Application 🚀
 
 <p align="center">
   <b style="color: blue;  ">Visitor count</b>
@@ -24,7 +24,7 @@
 
 ## Project Overview
 
-Excited to share my journey of developing a feature-rich full-stack web application inspired by Airbnb. The project is built using MongoDB, Express.js, and Node.js.
+Excited to share my journey of developing a feature-rich full-stack web application inspired by Tanmaybnb. The project is built using MongoDB, Express.js, and Node.js.
 
 ## Technologies & Packages Used
 
@@ -99,13 +99,13 @@ A heartfelt thank you to Shradha Khapra didi and AMAN DHATTARWAL bhaiya at #Apna
 
 ## Author
 
-Rakhi Singh \
-Email: rakhisingh030118@gmail.com \
+Tanmay Dhote \
+Email: tanmaydhote@example.com \
 LinkedIn : https://www.linkedin.com/in/rakhisingh23/
 
 ## Thank You
 
-Thank you for exploring Airbnb! Your feedback is valuable. If you have any suggestions or thoughts, feel free to share them with us. 😊
+Thank you for exploring Tanmaybnb! Your feedback is valuable. If you have any suggestions or thoughts, feel free to share them with us. 😊
 
 ---
 ### Thanks for visit... 😊😊😊

@@ -12,7 +12,7 @@
         <button>Create New Listing</button>
     </form> -->
     <link rel="stylesheet" href="/css/filter.css">
-    <div class="filters-main">
+    <div class="filters-main" data-aos="fade-down" data-aos-duration="800">
         <div id="filters">
             <div class="left_img_button" id="slideButton" style="display: none;">
                 <i class="fa-solid fa-angle-left"></i>
@@ -187,9 +187,15 @@
                 total before taxes</label>
         </div>
     </div>
+    <div class="parallax-hero mb-4">
+        <div class="hero-content" data-aos="fade-up" data-aos-duration="1200">
+            <h1>Find Your Next Adventure</h1>
+            <p>Discover unique homes and experiences around the world.</p>
+        </div>
+    </div>
     <div class="row row-cols-xxl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-1">
         <% for (const listing of allListing) { %>
-            <a href="/listings/<%= listing._id %>" class="listing-link">
+            <a href="/listings/<%= listing._id %>" class="listing-link" data-aos="zoom-in-up" data-aos-duration="1000">
                 <div class="card col listing-card index-res">
                     <div class="index-res-img">
                         <div class="card-img">
@@ -209,7 +215,8 @@
                                     <%= listing.title %>
                                 </b> <br>
                                 <span>&nbsp;<%= listing.location %>, <%= listing.country %></span>
-                                <span style="display: block;"><span class="tax-info">&nbsp;<%= day %> nights •</span>
+                                <span style="display: block;"><span class="tax-info">&nbsp;<%= day %> nights
+                                            •</span>
                                     &nbsp;<%= date %>-<%- dateA %> &nbsp;&nbsp;<%= month %></span>
                                 <span class="price-info"><span class=" fw-bold">&nbsp;&#8377;<%=
                                             listing.price.toLocaleString("en-IN") %> </span> night</span>

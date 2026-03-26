@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="/css/show.css">
 <link rel="stylesheet" href="/css/delete-confirm.css">
 <link rel="stylesheet" href="/css/button-style.css">
+<link rel="stylesheet" href="/css/rating.css">
 <% layout("/layouts/boilerplate") %>
     <style>
         @media (max-width:768px) {
@@ -21,7 +22,7 @@
                     <%= listing.title %>
                 </h3>
             </div>
-            <div class="card col-8 offset-2 show-card listing-card">
+            <div class="card col-8 offset-2 show-card listing-card" data-aos="fade-up" data-aos-duration="1000">
                 <div class="show-card-img">
                     <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image">
                 </div>
@@ -101,7 +102,8 @@
                                 <p><b>All Reviews</b></p>
                                 <div class="row m-1 review-main">
                                     <% for (const review of listing.reviews) { %>
-                                        <div class="card col-xs-4 col-sm-12 col-md-12 col-lg-5 review-lg">
+                                        <div class="card col-xs-4 col-sm-12 col-md-12 col-lg-5 review-lg"
+                                            data-aos="fade-right" data-aos-duration="800">
                                             <div class="card-body mb-2 review-card">
                                                 <p class="starability-result" data-rating="<%= review.rating %>"></p>
                                                 <span style="max-width: 80vw;">
@@ -133,7 +135,7 @@
                 <link rel="stylesheet"
                     href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
                     type="text/css">
-                <div class="col-8 offset-2 mapImg">
+                <div class="col-8 offset-2 mapImg" data-aos="zoom-in" data-aos-duration="1000">
                     <p><b>Where you'll be &nbsp;<i class="fa-solid fa-location-crosshairs"></i></p></b>
                     <div id="map" style="position: relative;">
                         <div class="map-zoom-icon">

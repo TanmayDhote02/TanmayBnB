@@ -1,10 +1,10 @@
 <% layout("/layouts/boilerplate") %> <!-- is layout use karne se html ka set custome boilerplate milta h -->
     <link rel="stylesheet" href="/css/profile.css">
     <link rel="stylesheet" href="/css/delete-confirm.css">
-    <div class="">
-        <div class="main-profiles mt-2">
+    <div class="container pb-4">
+        <div class="main-profiles mt-2" data-aos="zoom-in" data-aos-duration="1000">
             <div class="main-profile-detail">
-                <div class="profile-img">
+                <div class="profile-img listing-card" style="transition: all 0.4s ease;">
                     <% if(!currUser.image.url) {%>
                         <img src="/Icon/navbar-icon-user.png">
                         <% } else{%>
@@ -29,10 +29,10 @@
                 </div>
                 <div class="manage">
                     <form action="/update-form/<%= currUser._id %>" class="needs-validation">
-                        <button class="update">Update Ac</button>
+                        <button class="update btn">Update Ac</button>
                     </form>
                     <form method="post" action="/delete/<%= currUser._id %>?_method=DELETE" class="needs-validation">
-                        <button type="reset" class="list-btn list-delete" id="delete-confirm">Delete Ac</button>
+                        <button type="reset" class="list-btn btn list-delete" id="delete-confirm">Delete Ac</button>
                         <div class="fnx-fixed-dis">
                             <div class="delete-fnx" style="display: none;">
                                 <p><b>Are you sure</b></p>
@@ -46,10 +46,10 @@
             </div>
             <div class="manage manage-hide">
                 <form action="/update-form/<%= currUser._id %>" class="needs-validation">
-                    <button class="update">Update Ac</button>
+                    <button class="update btn">Update Ac</button>
                 </form>
                 <form method="post" action="/delete/<%= currUser._id %>?_method=DELETE" class="needs-validation">
-                    <button type="reset" class="list-btn list-delete" id="delete-confirm">Delete Ac</button>
+                    <button type="reset" class="list-btn btn list-delete" id="delete-confirm">Delete Ac</button>
                     <div class="fnx-fixed-dis">
                         <div class="delete-fnx" style="display: none;">
                             <p><b>Are you sure</b></p>
@@ -60,7 +60,7 @@
                     </div>
                 </form>
             </div>
-            <div class="choose-list">
+            <div class="choose-list" data-aos="fade-up" data-aos-duration="800">
                 <div>
                     <label for="listBtn"><b>Listings</b></label>
                     <input type="radio" name="listing" id="listBtn" checked>
@@ -136,15 +136,15 @@
 
         <!-- listings show -->
         <hr>
-        <div id="listing-box">
+        <div id="listing-box" data-aos="fade-up" data-aos-duration="1200" data-aos-offset="100">
             <div class="listing-count">
                 <h3 class="index-res">@<%= currUser.username %> Created&nbsp;<b class="text-success fs-4">
                             <%= allListing.length %>
                         </b>&nbsp;Listings</h3>
                 <form method="post" action="/profile/all-listings-delete/<%= currUser._id %>?_method=DELETE"
                     class="needs-validation">
-                    <a href="/listings/new" class="deleteAll create-list">Create Li..</a>
-                    <button type="reset" class="deleteAll delete-list" id="delete-confirm">Delete All</button>
+                    <a href="/listings/new" class="deleteAll btn create-list">Create Li..</a>
+                    <button type="reset" class="deleteAll btn delete-list" id="delete-confirm">Delete All</button>
                     <div class="fnx-fixed-dis">
                         <div class="delete-fnx" style="display: none;">
                             <p>Are you sure you want to delete the entire listings?</p>
@@ -197,14 +197,14 @@
 
 
         <!-- reviews show -->
-        <div id="review-box-end">
+        <div id="review-box-end" data-aos="fade-up" data-aos-duration="1200" data-aos-offset="100">
             <div class="listing-count">
                 <h3 class="index-res">@<%= currUser.username %> Created&nbsp;<b class="text-success fs-4">
                             <%= allReview.length %>
                         </b>&nbsp;Reviews</h3>
                 <form method="post" action="/profile/all-reviews-delete/<%= currUser._id %>?_method=DELETE"
                     class="needs-validation">
-                    <button type="reset" class="deleteAll delete-list" id="delete-confirm">Delete All</button>
+                    <button type="reset" class="deleteAll btn delete-list" id="delete-confirm">Delete All</button>
                     <div class="fnx-fixed-dis">
                         <div class="delete-fnx" style="display: none;">
                             <p>Are you sure you want to delete the entire reviews?</p>

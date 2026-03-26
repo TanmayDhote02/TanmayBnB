@@ -14,6 +14,7 @@ const listingRouter = require("./routers/listing.js");
 const reviewRouter = require("./routers/review.js");
 const userRouter = require("./routers/user.js");
 const profileRouter = require("./routers/profile.js");
+const bookingRouter = require("./routers/booking.js");
 
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
@@ -22,8 +23,8 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 
-// const MONGO_URL = "mongodb://127.0.0.1:27017/Airbnb";
-const DB_URL = process.env.ATLASDB_URL;
+const MONGO_URL = "mongodb://127.0.0.1:27017/Airbnb";
+const DB_URL = process.env.ATLASDB_URL || MONGO_URL;
 main()
   .then(() => {
     console.log("connected to DB");
@@ -35,8 +36,8 @@ async function main() {
   await mongoose.connect(DB_URL);
 }
 
-app.listen(8080, () => {
-  console.log("server is listening to port 8080");
+app.listen(6060, () => {
+  console.log("Tanmaybnb server is listening to port 6060");
 });
 
 app.set("view engine", "ejs");
@@ -49,7 +50,7 @@ app.use(express.static(path.join(__dirname, "/public/")));
 const store = MongoStore.create({
   mongoUrl: DB_URL,
   crypto: {
-    secret: process.env.SECRET,
+    secret: process.env.SECRET || "fallbacksecret",
   },
   touchAfter: 24 * 3600,
 });
@@ -59,7 +60,7 @@ store.on("error", () => {
 
 const sessionOptions = {
   store,
-  secret: process.env.SECRET,
+  secret: process.env.SECRET || "fallbacksecret",
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -87,25 +88,13 @@ app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   res.locals.currUser = req.user;
-  console.log("<<========================START========================>>");
-  console.log(`rawheaders:- ${req.get("rawHeaders")}`);
-  console.log(`rawheaders:- ${req.rawHeaders.slice(";").join("     ")}`);
-  console.log(`Country name:- ${req.get("cf-ipcountry")}`);
-  console.log(`Referar name:- ${req.get("referer")}`);
-  console.log(`Use site name:- ${req.get("sec-ch-ua")}`);
-  console.log(`Mobile name:- ${req.get("sec-ch-ua-mobile")}`);
-  console.log(`Platform name:- ${req.get("sec-ch-ua-platform")}`);
-  console.log(`Client IP address is:- ${req.get("true-client-ip")}`);
-  console.log(`Connecting IP address is:- ${req.get("cf-connecting-ip")}`);
-  console.log(`Forwarded IP address is:- ${req.get("x-forwarded-for")}`);
-  console.log(`User detail:- ${res.locals.currUser}`);
-  console.log("<<========================END========================>>");
   next();
 });
 
 app.use("/", userRouter);
 app.use("/profile", profileRouter);
 app.use("/listings", listingRouter);
+app.use("/listings/:id", bookingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.all("*", (req, res, next) => {
   next(new ExpressError(404, "Page Not Found!"));

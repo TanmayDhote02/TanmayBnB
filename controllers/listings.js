@@ -1,7 +1,9 @@
 const Listing = require("../models/listing");
-const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
-const mapToken = process.env.MAP_TOKEN;
-const geocodingClient = mbxGeocoding({ accessToken: mapToken });
+let geocodingClient = null;
+if (process.env.MAP_TOKEN && process.env.MAP_TOKEN !== "your_mapbox_access_token") {
+  const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+  geocodingClient = mbxGeocoding({ accessToken: process.env.MAP_TOKEN });
+}
 
 module.exports.index = async (req, res, next) => {
   let allListing = await Listing.find().sort({ _id: -1 });
@@ -13,18 +15,32 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 module.exports.createListing = async (req, res, next) => {
-  let response = await geocodingClient
-    .forwardGeocode({
-      query: `${req.body.listing.location},${req.body.listing.country}`,
-      limit: 1,
-    })
-    .send();
-  let url = req.file.path;
-  let filename = req.file.filename;
+  let url = "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdvYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60";
+  let filename = "listingimage";
+
+  if (typeof req.file !== "undefined" && req.file.path) {
+    url = req.file.path;
+    filename = req.file.filename;
+  }
+
   const newListing = new Listing(req.body.listing);
   newListing.owner = req.user._id;
   newListing.image = { url, filename };
-  newListing.geometry = response.body.features[0].geometry;
+
+  // Only use geocoding if client is available
+  if (geocodingClient) {
+    let response = await geocodingClient
+      .forwardGeocode({
+        query: `${req.body.listing.location},${req.body.listing.country}`,
+        limit: 1,
+      })
+      .send();
+    newListing.geometry = response.body.features[0].geometry;
+  } else {
+    // Fallback coordinates (New Delhi) if token disabled/missing
+    newListing.geometry = { type: 'Point', coordinates: [77.2090, 28.6139] };
+  }
+
   await newListing.save();
   req.flash("success", "New Listing Created!");
   res.redirect("/listings");
@@ -58,19 +74,22 @@ module.exports.renderEditForm = async (req, res, next) => {
 
 module.exports.updateListing = async (req, res, next) => {
   let { id } = req.params;
-  let response = await geocodingClient
-    .forwardGeocode({
-      query: `${req.body.listing.location},${req.body.listing.country}`,
-      limit: 1,
-    })
-    .send();
   let updateListing = req.body.listing;
   let listing = await Listing.findByIdAndUpdate(id, updateListing);
 
-  listing.geometry = response.body.features[0].geometry;
+  if (geocodingClient) {
+    let response = await geocodingClient
+      .forwardGeocode({
+        query: `${req.body.listing.location},${req.body.listing.country}`,
+        limit: 1,
+      })
+      .send();
+    listing.geometry = response.body.features[0].geometry;
+  }
+
   await listing.save();
 
-  if (typeof req.file != "undefined") {
+  if (typeof req.file != "undefined" && req.file.path) {
     let url = req.file.path;
     let filename = req.file.filename;
     listing.image = { url, filename };

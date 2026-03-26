@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holiday Homes & Apartment Rentals - Tanmaybnb</title>
+    <link rel="shortcut icon" href="/Icon/airbnb-icon.png" type="image/x-icon" style="filter: hue-rotate(90deg);">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,500&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Foldit:wght@400;500;600;700;800&family=Inknut+Antiqua:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,500&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/rating.css">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet"> <!--mapbox link-->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script> <!--mapbox link-->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="pageblur">
+        <link rel="stylesheet" href="/css/navbar.css"> <!-- link style file -->
+
+<nav class="nav-box">
+  <div id="nav-main">
+    <div id="nav-main-bar">
+      <div class="nav-icon">
+        <a href="/listings" style="display: flex; align-items: center; text-decoration: none;">
+          <img class="imgAirbnb" src="/Icon/name-logo.png" alt="Tanmaybnb">
+          <span style="margin-left: 8px; font-size: 20px; font-weight: bold; color: #FF385C;"></span>
+        </a>
+      </div>
+      <div class="nav-search nav-hover nav-search-search">
+        <form class="d-flex needs-validation" role="search" action="/listings/search" method="get" id="searchBox">
+          <input type="search" placeholder="Search" aria-label="Search" name="q" id="mySearchInput">
+          <button type="submit" id="search"><i class="fa-solid fa-magnifying-glass"></i></i></button>
+        </form>
+      </div>
+      <div class="nav-user nav-hover">
+        <div>
+          <img src="/Icon/navbar-icon.png" id="png-img-bar">
+          
+              <img src="/Icon/navbar-icon-user.png" alt="User" id="png-img-user">
+              
+                <img src="/Icon/navbar-icon-cross.png" id="png-img-cross">
+        </div>
+      </div>
+      <div class="user-fnx">
+        <a href="/profile">Profile</a>
+        <a href="/listings/new">Tanmaybnb your home</a>
+        
+          <a href="/signup">SignUp</a>
+          <a href="/login">LogIn</a>
+          
+            
+      </div>
+    </div>
+    <div id="nav-search-hide">
+      <div class="nav-search nav-hover">
+        <form class="d-flex needs-validation" role="search" action="/listings/search" method="get" id="searchBox">
+          <input type="search" placeholder="Search" aria-label="Search" name="q" id="mySearchInput">
+          <button type="submit" id="search"><i class="fa-solid fa-magnifying-glass"></i></i></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</nav>
+<script src="/js/navbar.js"></script>
+            <div class="container">
+                <style>
+    /* flash animation */
+    .anima {
+        position: absolute;
+        top: calc(5.5rem);
+        animation: slide-in 3s ease-in forwards;
+        z-index: 110;
+    }
+
+    @keyframes slide-in {
+        0% {
+            top: calc(5.5rem - 90px);
+        }
+
+        25% {
+            top: 5.5rem;
+        }
+
+        75% {
+            top: 5.5rem;
+        }
+
+        100% {
+            top: calc(5.5rem - 190px);
+        }
+    }
+
+    @media (max-width: 767px) {
+        .anima {
+            top: 8rem;
+        }
+
+        @keyframes slide-in {
+            0% {
+                top: calc(8rem - 90px);
+            }
+
+            25% {
+                top: 8rem;
+            }
+
+            75% {
+                top: 8rem;
+            }
+
+            100% {
+                top: calc(8rem - 190px);
+            }
+        }
+    }
+</style>
+
+<!-- add on boilerplate -->
+
+
+
+
+
+        
+                    
+    <link rel="stylesheet" href="/css/button-style.css">
+    <div class="row mt-0 mx-auto">
+        <div class="col-md-8 mx-auto">
+            <br><br>
+            <h3>Create A New Listing</h3>
+            <form method="post" action="/listings" class="needs-validation" novalidate enctype="multipart/form-data">
+                <!-- multipart/form-data type send  -->
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" placeholder="Add A Catchy Title" name="listing[title]"
+                        class="form-control border border-black border-opacity-50" required>
+                    <div class="valid-feedback">Title looks good!</div>
+                    <div class="invalid-feedback">Title should be valid</div>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea cols="20" rows="3" placeholder="Enter Description" name="listing[description]"
+                        class="form-control border border-black border-opacity-50" required></textarea>
+                    <div class="invalid-feedback">Please enter a short description.</div>
+                </div>
+                <!-- <div class="mb-3">
+                    <label for="image" class="form-label">Image Link</label>
+                    <input type="text" placeholder="Enter Image URL/Link" name="listing[image]" class="form-control">
+                </div> -->
+                <div class=" row mb-3">
+                    <div class="col-10">
+                        <label for="image" class="form-label">Upload Image</label>
+                        <input type="file" name="listing[image]"
+                            class="form-control border border-black border-opacity-50" id="verify-img"
+                            onchange="previewImage()" required>
+                        <p id="errorContainer"></p>
+                    </div>
+                    <div class="col-2">
+                        <label class="form-control border border-white" style="margin-left: -15px;font-weight: 700;"
+                            for="verify">Verify</label>
+                        <input type="checkbox" id="verify"
+                            class="form-btn btn ms-2 border border-black border-opacity-50" required
+                            style="height: 25px; width:25px;">
+                        <div class="invalid-feedback">Varify</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Update Image Preview</label><br>
+                    <div id="imagePreview" class="listingImg">
+                        <img src="/Icon/listing-img-pre.png" alt="demo">
+                    </div>
+                </div>
+                <div class="m-b3">
+                    <label for="category" class="form-label">Choose Category</label>
+                    <div class="category-choose">
+                        <p><b>Single choose :</b> Click &nbsp;&nbsp;</p>
+                        <p><b>Multiple choose :</b> Ctrl + Click</p>
+                    </div>
+                    <select id="category" name="listing[category]"
+                        class="form-select border border-black border-opacity-50 mb-2" multiple required
+                        style="font-size: .95rem;">
+                        <option value="Beachfront">Beachfront</option>
+                        <option value="Cabins">Cabins</option>
+                        <option value="Omg">OMG</option>
+                        <option value="Lake">Lake</option>
+                        <option value="Design">Design</option>
+                        <option value="Amazing Pools">Amazing pools</option>
+                        <option value="Farms">Farms</option>
+                        <option value="Amazing Views">Amazing views</option>
+                        <option value="Rooms">Rooms</option>
+                        <option value="Lakefront">Lakefront</option>
+                        <option value="Tiny Homes">Tiny homes</option>
+                        <option value="Countryside">Countryside</option>
+                        <option value="Treehouse">Treehouse</option>
+                        <option value="Trending">Trending</option>
+                        <option value="Tropical">Tropical</option>
+                        <option value="National Parks">National parks</option>
+                        <option value="Casties">Casties</option>
+                        <option value="Camping">Camping</option>
+                        <option value="Top Of The World">Top of the world</option>
+                        <option value="Luxe">Luxe</option>
+                        <option value="Iconic Cities">Iconic cities</option>
+                        <option value="Earth Homes">Earth homes</option>
+                    </select>
+                    <div class="invalid-feedback">Choose category name</div>
+                </div>
+                <div class="row">
+                    <div class="mb-3 col-md-4">
+                        <label for="price" class="form-label">Price</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                            </div>
+                            <input type="number" placeholder="Enter Price" name="listing[price]"
+                                class="form-control border border-black border-opacity-50" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text">.00</span>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback">Price should be valid</div>
+                    </div>
+                    <div class="mb-3 col-md-8">
+                        <label for="country" class="form-label">Country</label>
+                        <input type="text" placeholder="Enter Country" name="listing[country]"
+                            class="form-control border border-black border-opacity-50" required>
+                        <div class="invalid-feedback">Country name should be valid</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" placeholder="Enter Location" name="listing[location]"
+                        class="form-control border border-black border-opacity-50" required>
+                    <div class="invalid-feedback">Location should be valid</div>
+                </div>
+                <button class="btn btn-success mb-3 styleBtn">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/newImg-size.js"></script>
+    <script src="/js/image-preview.js"></script>
+            </div>
+            <link rel="stylesheet" href="/css/footer.css">
+<footer>
+    <div class="main-ftr">
+        <div class="ftr-head">
+            <h3>Inspiration for future getaways</h3>
+        </div>
+        <div class="ftr-nav">
+            <div class="main-light ftr-nav-m" style="opacity: 1; border-bottom: 2px solid rgba(0, 0, 0, 1);">Popular
+            </div>
+            <div class="main-light ftr-nav-m">Arts & culture</div>
+            <div class="main-light ftr-nav-m">Outdoors</div>
+            <div class="main-light ftr-nav-m">Mountains</div>
+            <div class="main-light ftr-nav-m">Beach</div>
+            <div class="main-light ftr-nav-m">Unique stays</div>
+            <div class="main-light ftr-nav-m">Categories</div>
+            <div class="main-light ftr-nav-m">Things to do</div>
+        </div>
+        <div class="ftr-nav-pop">
+            <div>
+                <div>
+                    <div class="main-light">Canmore</div>
+                    <p class="light">Apartment rentals</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="main-light">Benalmadena</div>
+                    <p class="light">Flat rentals</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="main-light">Marbella</div>
+                    <p class="light">House rentals</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="main-light">Mijas</div>
+                    <p class="light">House rentals</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="main-light">Prescott</div>
+                    <p class="light">House rentals</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="main-light">Scottsdale</div>
+                    <p class="light">Apartment rentals</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="main-light">Tucson</div>
+                    <p class="light">Apartment rentals</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="main-light">Jasper</div>
+                    <p class="light">Holiday rentals</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="main-light">Mountain View</div>
+                    <p class="light">House rentals</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="main-light">Devonport</div>
+                    <p class="light">Holiday rentals</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="main-light">Mallacoota</div>
+                    <p class="light">Beach house rentals</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="main-light">Ibiza</div>
+                    <p class="light">Holiday rentals</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="main-light">Anaheim</div>
+                    <p class="light">Apartment rentals</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="main-light">Mounterey</div>
+                    <p class="light">Holiday rentals</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="main-light">Paso Robles</div>
+                    <p class="light">House rentals</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="main-light">Santa Barbara</div>
+                    <p class="light">Flat rentals</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="main-light">Sonoma</div>
+                    <p class="light">Cottage rentals</p>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="main-light show">
+                        <span>Show more</span>
+                        <i class="fa-solid fa-angle-right"></i>
+                    </div>
+                    <p> </p>
+                </div>
+            </div>
+        </div>
+        <hr class="ftr-hr">
+        <div class="ftr-mdl">
+            <div>
+                <div class="main-light mb-2">Support</div>
+                <div class="ftr-mdl-cont">
+                    <div><span>Help Centre</span></div>
+                    <div><span>Tanmaybnb</span></div>
+                    <div><span>Anti-discrimination</span></div>
+                    <div><span>Disability support</span></div>
+                    <div><span>Cancellation option</span></div>
+                    <div><span>Report neighbourhood concern</span></div>
+                </div>
+            </div>
+            <div>
+                <div class="main-light mb-2">Hosting</span></div>
+                <div class="ftr-mdl-cont">
+                    <div><span>Tanmaybnb your home</span></div>
+                    <div><span>AirCover for Hosts</span></div>
+                    <div><span>Hosting resources</span></div>
+                    <div><span>Community forum</span></div>
+                    <div><span>Hosting responsibly</span></div>
+                </div>
+            </div>
+            <div>
+                <div class="main-light mb-2">Airbnb</div>
+                <div class="ftr-mdl-cont">
+                    <div><span>Newsroom</span></div>
+                    <div><span>New features</span></div>
+                    <div><span>Careers</span></div>
+                    <div><span>Investors</span></div>
+                    <div><span>Tanmaybnb.org emergency stays</span></div>
+                </div>
+            </div>
+        </div>
+        <hr class="ftr-hr">
+        <div class="ftr-copy">
+            <div>
+                <div>&copy; 2024 Tanmaybnb, Inc. &sdot; &nbsp; </div>
+                <div class="priv">
+                    <a href="#">Privacy</a> &sdot;
+                    <a href="#">Terms</a> &sdot;
+                    <a href="#">Sitemap</a> &sdot;
+                    <a href="#">Company details</a>
+                </div>
+            </div>
+            <div class="ftr-net">
+                <div class="eng-in">
+                    <i class="fa-solid fa-globe me-1"></i>
+                    <div class="main-light">English (IN)</div>
+                </div>
+                <div class="ftr-inr">₹ INR</div>
+                <div class="social-icon">
+                    <a target="_blank" href="https://github.com/Rakhisan/">
+                        <img src="/Icon/github.png" alt="GitHub" />
+                    </a>
+                    <a target="_blank" href="https://www.linkedin.com/in/rakhisingh23/">
+                        <img src="/Icon/linkedIn.png" alt="LinkedIn" />
+                    </a>
+                    <a target="_blank" href="https://www.instagram.com/_rakhi_baghel_/">
+                        <img src="/Icon/instagram.png" alt="Instagram" />
+                    </a>
+                    <a target="_blank" href="#">
+                        <img src="/Icon/facebook.png" alt="Facebook" style="padding: 1px;" />
+                    </a>
+                    <a target="_blank" href="#">
+                        <img src="/Icon/twiter.png" alt="Twiter" />
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="ftr-akash">
+            <p> Made by - Tanmay Dhote</p>
+        </div>
+    </div>
+</footer>
+    </div>
+    <div class="showfilter">
+        <div class="filterbtn">
+            <link rel="stylesheet" href="/css/filterbtn.css">
+<div class="main">
+    <header class="nav fixed-top">
+        <div>
+            <span class="close">
+                <svg xmlns="http://www.w3.org/2000/svg" onclick="closefilter()" height="1em" viewBox="0 0 384 512">
+                    <path
+                        d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+                </svg>
+            </span>
+            <h1>Filters</h1>
+        </div>
+    </header>
+    <div class="container-btn">
+        <div>
+            <section class="mb-2">
+                <div>
+                    <div>
+                        <h2 class="h-tag">Type of place</h2>
+                        <div class="text">Search rooms,entire homes or any type of place.</div>
+                    </div>
+                    <div class="place-type mt-2">
+                        <div class="btn-group">
+                            <button class="btn btn-outline-dark">Any type</button>
+                            <button class="btn btn-outline-dark">Room</button>
+                            <button class="btn btn-outline-dark">Entire home</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="mb-2">
+                <div>
+                    <div>
+                        <h2 class="h-tag">Price range</h2>
+                        <div class="text">Nightly prices before fees and taxes</div>
+                    </div>
+                    <div class="graph">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <div class="graphH"></div>
+                    <div class="price-range mt-2">
+                        <div class="mb-1">
+                            <div>Minimum</div>
+                            <div>
+                                <span>₹</span>
+                                <input type="number" value="870" name="" id="" min="1">
+                            </div>
+                        </div>
+                        <!-- <span style="display: block;">__</span> -->
+                        <div class="mb-1">
+                            <div>Maximum</div>
+                            <div>
+                                <span>₹</span>
+                                <input type="number" value="54000" name="" id="" min="500">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-2">
+                <div>
+                    <h2 class="h-tag">Rooms and beds</h2>
+                </div>
+                <div>
+                    <div>
+                        <div class="text">Bedrooms</div>
+                        <div class="room-beds mt-2 mb-2">
+                            <div>Any</div>
+                            <div>1</div>
+                            <div>2</div>
+                            <div>3</div>
+                            <div>4</div>
+                            <div>5</div>
+                            <div>6</div>
+                            <div>7</div>
+                            <div>8+</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text">Beds</div>
+                        <div class="room-beds mt-2 mb-2">
+                            <div>Any</div>
+                            <div>1</div>
+                            <div>2</div>
+                            <div>3</div>
+                            <div>4</div>
+                            <div>5</div>
+                            <div>6</div>
+                            <div>7</div>
+                            <div>8+</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text">Bathrooms</div>
+                        <div class="room-beds mt-2 mb-2">
+                            <div>Any</div>
+                            <div>1</div>
+                            <div>2</div>
+                            <div>3</div>
+                            <div>4</div>
+                            <div>5</div>
+                            <div>6</div>
+                            <div>7</div>
+                            <div>8+</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-2">
+                <div>
+                    <h2 class="h-tag">Top-tier stays</h2>
+                </div>
+                <div class="tier-stay">
+                    <div><img src="" alt=""></div>
+                    <div>
+                        <h3>Guest favourites</h3>
+                    </div>
+                    <div class="text">
+                        <p>The most loved homes on Airbnb according to guests</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-2">
+                <div>
+                    <h2 class="h-tag">Property type</h2>
+                </div>
+                <div class="property-type">
+                    <div>
+                        <div><img src="/Icon/home.jpg" style="height: 25px; width: 25px;" alt="House"></div>
+                        <div><b>House</b></div>
+                    </div>
+                    <div>
+                        <div><img src="/Icon/flat.jpg" style="height: 25px; width: 25px;" alt="Flat"></div>
+                        <div><b>Flat</b></div>
+                    </div>
+                    <div>
+                        <div><img src="/Icon/guest-house.jpg" style="height: 25px; width: 25px;" alt="Guest"></div>
+                        <div><b>Guest house</b></div>
+                    </div>
+                    <div>
+                        <div><img src="/Icon/hotel.jpg" style="height: 25px; width: 25px;" alt="Hotel"></div>
+                        <div><b>Hotel</b></div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-2">
+                <div>
+                    <h2 class="h-tag">Amenities</h2>
+                </div>
+                <div><b>Essentials</b></div>
+                <div class="amenities">
+                    <div>
+                        <input type="checkbox" class="checkboxBtn" name="" id="">
+                        <span class="textbig">Wifi</span>
+                    </div>
+                    <div>
+                        <input type="checkbox" class="checkboxBtn" name="" id="">
+                        <span class="textbig">Kitchen</span>
+                    </div>
+                    <div>
+                        <input type="checkbox" class="checkboxBtn" name="" id="">
+                        <span class="textbig">Washing machine</span>
+                    </div>
+                    <div>
+                        <input type="checkbox" class="checkboxBtn" name="" id="">
+                        <span class="textbig">dryer</span>
+                    </div>
+                    <div>
+                        <input type="checkbox" class="checkboxBtn" name="" id="">
+                        <span class="textbig">Air conditioning</span>
+                    </div>
+                    <div>
+                        <input type="checkbox" class="checkboxBtn" name="" id="">
+                        <span class="textbig">Heating</span>
+                    </div>
+                </div>
+                <a href="#">
+                    <div>
+                        <h4>Show more</h4>
+                    </div>
+                </a>
+            </div>
+            <div class="mb-2">
+                <div>
+                    <h2 class="h-tag">Booking options</h2>
+                </div>
+                <div class="booking">
+                    <div>
+                        <div>
+                            <h4>Instant Book</h4>
+                            <p class="text">Listing you can book without waiting for host approval</p>
+                        </div>
+                        <div>
+                            <label class="toggle-container">
+                                <input type="checkbox" class="toggle-checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <h4>Self check-in</h4>
+                            <p class="text">Easy access to the property once you arrive</p>
+                        </div>
+                        <div>
+                            <label class="toggle-container">
+                                <input type="checkbox" class="toggle-checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <h4>Allows pets</h4>
+                            <p class="text"><b>Bringing a service aanimal?</b></p>
+                        </div>
+                        <div>
+                            <label class="toggle-container">
+                                <input type="checkbox" class="toggle-checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-2">
+                <div>
+                    <h2 class="h-tag">Accessibility features</h2>
+                </div>
+                <div style="font-size: 1rem; font-weight: 600;">Guest entrance and parking</div>
+                <div class="acc-features mt-3">
+                    <div>
+                        <p class="textbig">Step-free guest entrance</p>
+                        <input type="checkbox" class="checkboxBtn">
+                    </div>
+                    <div>
+                        <p class="textbig">Guest entrance wider than 32 inches (81 centimetres)</p>
+                        <input type="checkbox" class="checkboxBtn">
+                    </div>
+                    <div>
+                        <p class="textbig">Step-free guest entrance</p>
+                        <input type="checkbox" class="checkboxBtn">
+                    </div>
+                    <div>
+                        <p class="textbig">Step-free guest entrance</p>
+                        <input type="checkbox" class="checkboxBtn">
+                    </div>
+                </div>
+                <a href="#">
+                    <div>
+                        <h4>Show more</h4>
+                    </div>
+                </a>
+            </div>
+            <div class="mb-2">
+                <div>
+                    <h2 class="h-tag">Host language</h2>
+                </div>
+                <div class="language">
+                    <div>
+                        <input type="checkbox" class="checkboxBtn" name="" id="">
+                        <p class="textbig">English</p>
+                    </div>
+                    <div>
+                        <input type="checkbox" class="checkboxBtn" name="" id="">
+                        <p class="textbig">French</p>
+                    </div>
+                    <div>
+                        <input type="checkbox" class="checkboxBtn" name="" id="">
+                        <p class="textbig">German</p>
+                    </div>
+                    <div>
+                        <input style="height: 30px;" type="checkbox" class="checkboxBtn" name="" id="">
+                        <p class="textbig">Japanese</p>
+                    </div>
+                </div>
+                <a href="#">
+                    <div>
+                        <h4>Show more</h4>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <footer class="nav fixed-bottom">
+        <div class="bottom-flt">
+            <button class="btn btn-outlint-success">Clear all</button>
+            <a class="btn btn-dark" href="">Show 687 places</a>
+        </div>
+    </footer>
+</div>
+<script src="/js/filterIcon.js"></script>
+        </div>
+    </div>
+    <!-- ----loder------ -->
+    <link rel="stylesheet" href="/css/loder.css">
+    <img id="loder" src="/Icon/loder.gif" alt="Loding.." style="display: none">
+    <!-- --------------- -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="/js/script.js"></script> <!-- clint side validate -->
+    <script src="/js/tax-info.js"></script> <!-- tax info indes.ejs page -->
+    <script src="/js/hide.js"></script> <!-- hide devloper tool -->
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="/js/premium-animations.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50
+        });
+    </script>
+</body>
+
+</html>

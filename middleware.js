@@ -49,7 +49,7 @@ module.exports.validateUser = (req, res, next) => {
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.session.redirectUrl = req.originalUrl;
-    req.flash("error", "You must be logged in.");
+    req.flash("error", "You must be logged in to do that!");
     return res.redirect("/login");
   }
   next();

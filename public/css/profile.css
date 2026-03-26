@@ -5,11 +5,36 @@
 .main-profile-detail {
     display: flex;
     justify-content: space-around;
+    align-items: center;
     margin-bottom: 2.5rem;
-    background-color: lightskyblue;
-    border-radius: 5px;
+    background: linear-gradient(-45deg, #00B4DB, #0083B0, #1CB5E0, #000046);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: white;
+    border-radius: 15px;
     padding: 30px 30px 40px 30px;
-    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.742), 0px 5px 5px rgb(22, 6, 89);
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.profile-user h4,
+.profile-user h3,
+.profile-user span {
+    color: white !important;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .profile-user {
@@ -42,30 +67,37 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: black;
+    color: #333;
     font-weight: 700;
     font-size: 1rem;
     text-decoration: none;
     margin-bottom: 10px;
     text-align: center;
     height: 2.6rem;
-    width: 8rem;
-    border: 1px solid grey;
+    width: 8.5rem;
+    border: none;
+    background-color: white;
     border-radius: 20px;
     outline: none;
-    background: none;
     cursor: pointer;
-    box-shadow: inset 0px 4px 6px black;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .manage .update:hover,
+.create-list:hover,
 .lists-btn .list-show:hover {
-    background-color: green;
+    background-color: #28a745;
+    color: white;
+    transform: translateY(-3px) scale(1.05);
 }
 
 .manage .delete:hover,
+.delete-list:hover,
 .list-delete:hover {
-    background-color: red;
+    background-color: #dc3545;
+    color: white;
+    transform: translateY(-3px) scale(1.05);
 }
 
 .manage form button:active,
@@ -115,8 +147,11 @@
     background-color: red;
 }
 
+.manage form button:active,
+.list-btn:active,
 .deleteAll:active {
-    box-shadow: inset 0px 6px 7px black;
+    transform: scale(0.95);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .choose-list {
@@ -172,12 +207,12 @@ div.profile-img {
     overflow: hidden;
 }
 
-div.profile-img > img {
+div.profile-img>img {
     height: inherit;
     width: inherit;
 }
 
-div.profile-img > div {
+div.profile-img>div {
     position: absolute;
     bottom: 0px;
     height: 60px;
@@ -189,13 +224,13 @@ div.profile-img > div {
     opacity: 0;
 }
 
-div.profile-img > div a {
+div.profile-img>div a {
     text-decoration: none;
     font-size: 2rem;
     color: rgb(224, 224, 224);
 }
 
-div.profile-img > div:hover {
+div.profile-img>div:hover {
     opacity: 1;
 }
 
@@ -259,12 +294,12 @@ div.profile-img > div:hover {
         padding: 25px 5px;
     }
 
-    div.profile-img > div {
+    div.profile-img>div {
         opacity: 1;
         height: 40px;
     }
 
-    div.profile-img > div a i {
+    div.profile-img>div a i {
         font-size: 1.5rem;
     }
 }

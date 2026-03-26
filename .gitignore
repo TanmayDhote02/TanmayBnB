@@ -1,2 +1,8 @@
-.env 
+.env
 node_modules/
+*.log
+*.bak
+*.txt
+tmp_out.html
+env_out.txt
+temp_error.txt

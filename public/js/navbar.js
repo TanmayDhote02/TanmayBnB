@@ -18,13 +18,24 @@ const crossBar = document.querySelector("#png-img-cross");
 const userFnx = document.querySelector(".user-fnx");
 const userButton = document.querySelector(".nav-user");
 userButton.addEventListener("click", () => {
-  if (userFnx.style.display == "none") {
-    userFnx.style.display = "flex";
+  userFnx.classList.toggle("show-dropdown");
+
+  if (userFnx.classList.contains("show-dropdown")) {
     imgBar.style.display = "none";
     crossBar.style.display = "inline";
   } else {
-    userFnx.style.display = "none";
     crossBar.style.display = "none";
     imgBar.style.display = "inline";
+  }
+});
+
+// Close dropdown when clicking outside
+document.addEventListener("click", function (event) {
+  if (!userButton.contains(event.target) && !userFnx.contains(event.target)) {
+    if (userFnx.classList.contains("show-dropdown")) {
+      userFnx.classList.remove("show-dropdown");
+      crossBar.style.display = "none";
+      imgBar.style.display = "inline";
+    }
   }
 });
