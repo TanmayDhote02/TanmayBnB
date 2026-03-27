@@ -1,3 +1,4 @@
+// Load environment variables
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
@@ -10,12 +11,14 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 
+// Routers
 const listingRouter = require("./routers/listing.js");
 const reviewRouter = require("./routers/review.js");
 const userRouter = require("./routers/user.js");
 const profileRouter = require("./routers/profile.js");
 const bookingRouter = require("./routers/booking.js");
 
+// Auth & Session
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
@@ -24,20 +27,27 @@ const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 
 
-// ✅ Use MongoDB Atlas URL from environment
+// ✅ DATABASE CONNECTION (FINAL FIX)
 const DB_URL = process.env.MONGO_URL;
 
-// ✅ Connect to DB
+if (!DB_URL) {
+  console.error("❌ MONGO_URL is missing in environment variables");
+  process.exit(1);
+}
+
 async function main() {
   await mongoose.connect(DB_URL);
 }
 
 main()
   .then(() => console.log("✅ Connected to DB"))
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    console.error("❌ DB Connection Error:", err);
+    process.exit(1);
+  });
 
 
-// ✅ PORT FIX (6060 locally, Render compatible)
+// ✅ PORT FIX (Render + Local)
 const PORT = process.env.PORT || 6060;
 
 app.listen(PORT, () => {
@@ -56,7 +66,7 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "/public")));
 
 
-// ✅ Mongo Session Store
+// ✅ SESSION STORE (MongoDB Atlas)
 const store = MongoStore.create({
   mongoUrl: DB_URL,
   crypto: {
@@ -85,7 +95,7 @@ app.use(session(sessionOptions));
 app.use(flash());
 
 
-// Passport setup
+// ✅ PASSPORT SETUP
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -111,13 +121,13 @@ app.use("/listings/:id", bookingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 
 
-// 404 handler
+// 404 Handler
 app.all("*", (req, res, next) => {
   next(new ExpressError(404, "Page Not Found!"));
 });
 
 
-// Error handler
+// Error Handler
 app.use((err, req, res, next) => {
   let { statusCode = 500, message = "Something went wrong!" } = err;
   res.status(statusCode).render("listings/error.ejs", { message });
