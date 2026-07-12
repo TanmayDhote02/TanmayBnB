@@ -41,6 +41,132 @@
                         <%= listing.category.slice(",").join(", ") %> </p>
                 </div>
             </div>
+
+            <!-- Booking Section -->
+            <div class="col-8 offset-2 mt-4" data-aos="fade-up" data-aos-duration="1000">
+                <hr>
+                <div class="booking-container card p-4 show-card shadow-sm border-0 bg-white" style="border-radius: 15px;">
+                    <h4 class="mb-4 text-dark font-weight-bold">
+                        <i class="fa-solid fa-calendar-check me-2 text-danger"></i>Book this Listing
+                    </h4>
+                    <% if(currUser) { %>
+                        <form method="POST" action="/listings/<%= listing._id %>/book" class="needs-validation" novalidate>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="check-in" class="form-label fw-bold">Check-in Date</label>
+                                    <input type="date" class="form-control py-2" name="booking[checkIn]" id="check-in" required>
+                                    <div class="invalid-feedback">Please select a valid check-in date.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="check-out" class="form-label fw-bold">Check-out Date</label>
+                                    <input type="date" class="form-control py-2" name="booking[checkOut]" id="check-out" required>
+                                    <div class="invalid-feedback">Please select a valid check-out date.</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="guest-name" class="form-label fw-bold">Guest Name</label>
+                                    <input type="text" class="form-control py-2" name="booking[name]" id="guest-name" value="<%= currUser.fName %> <%= currUser.lName %>" required>
+                                    <div class="invalid-feedback">Please enter guest name.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="guest-phone" class="form-label fw-bold">Phone Number</label>
+                                    <input type="tel" class="form-control py-2" name="booking[phone]" id="guest-phone" placeholder="e.g., +91 9876543210" required>
+                                    <div class="invalid-feedback">Please enter a contact number.</div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="guests" class="form-label fw-bold">Number of Guests</label>
+                                <input type="number" class="form-control py-2" name="booking[guests]" id="guests" min="1" max="10" value="1" required>
+                                <div class="invalid-feedback">Guests must be between 1 and 10.</div>
+                            </div>
+
+                            <!-- Pricing Calculator details -->
+                            <div id="price-calculator" class="mt-4 p-3 bg-light rounded border" style="display: none;">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span id="calc-nights-label">&#8377; <%= listing.price.toLocaleString("en-In") %> x 1 night</span>
+                                    <span id="calc-base-total">&#8377; <%= listing.price.toLocaleString("en-In") %></span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2 text-muted">
+                                    <span>Service Fee</span>
+                                    <span>&#8377; 500</span>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-between font-weight-bold fs-5">
+                                    <strong>Total Price</strong>
+                                    <strong id="calc-grand-total" class="text-danger">&#8377; 0</strong>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-danger mt-3 w-100 py-3 styleBtn fw-bold text-white border-0 shadow-sm" style="background-color: #fe424d; border-radius: 10px; transition: all 0.3s ease;">
+                                <i class="fa-solid fa-bolt me-2"></i>Confirm Reservation
+                            </button>
+                        </form>
+                    <% } else { %>
+                        <div class="text-center py-4 border rounded bg-light">
+                            <p class="text-muted mb-3">You must be logged in to book this property.</p>
+                            <a href="/login" class="btn btn-danger styleBtn fw-bold px-4 py-2 text-white border-0 shadow-sm" style="background-color: #fe424d; border-radius: 8px;">Log In to Book</a>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    const checkInInput = document.getElementById("check-in");
+                    const checkOutInput = document.getElementById("check-out");
+                    const calcDiv = document.getElementById("price-calculator");
+                    const nightsLabel = document.getElementById("calc-nights-label");
+                    const baseTotalSpan = document.getElementById("calc-base-total");
+                    const grandTotalSpan = document.getElementById("calc-grand-total");
+                    const pricePerNight = <%= listing.price %>;
+
+                    // Set check-in min to today
+                    const today = new Date().toISOString().split("T")[0];
+                    if (checkInInput) {
+                        checkInInput.min = today;
+
+                        checkInInput.addEventListener("change", () => {
+                            checkOutInput.min = checkInInput.value;
+                            calculatePrice();
+                        });
+                    }
+
+                    if (checkOutInput) {
+                        checkOutInput.addEventListener("change", () => {
+                            calculatePrice();
+                        });
+                    }
+
+                    function calculatePrice() {
+                        const checkInVal = checkInInput.value;
+                        const checkOutVal = checkOutInput.value;
+
+                        if (checkInVal && checkOutVal) {
+                            const date1 = new Date(checkInVal);
+                            const date2 = new Date(checkOutVal);
+                            const timeDiff = date2 - date1;
+
+                            if (timeDiff > 0) {
+                                const nights = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+                                const baseTotal = nights * pricePerNight;
+                                const serviceFee = 500;
+                                const grandTotal = baseTotal + serviceFee;
+
+                                calcDiv.style.display = "block";
+                                nightsLabel.innerHTML = `&#8377; ${pricePerNight.toLocaleString("en-IN")} x ${nights} night${nights > 1 ? 's' : ''}`;
+                                baseTotalSpan.innerHTML = `&#8377; ${baseTotal.toLocaleString("en-IN")}`;
+                                grandTotalSpan.innerHTML = `&#8377; ${grandTotal.toLocaleString("en-IN")}`;
+                            } else {
+                                calcDiv.style.display = "none";
+                            }
+                        } else {
+                            calcDiv.style.display = "none";
+                        }
+                    }
+                });
+            </script>
+
             <!-- Authorization  -->
             <% if(currUser &&  listing.owner && currUser._id.equals(listing.owner._id)){ %>
             <div class=" btns offset-2 ">
@@ -151,3 +277,134 @@
     </div>
     <script src="/js/map.js"></script>
     <script src="/js/delete-confirm.js"></script>
+
+    <% if (typeof success !== 'undefined' && success.length && success.toString().includes("Booking confirmed!")) { %>
+        <!-- Custom Success Popup Overlay -->
+        <div id="custom-success-popup" class="custom-popup-overlay">
+            <div class="custom-popup-content text-center">
+                <div class="popup-icon-container">
+                    <i class="fa-solid fa-circle-check text-success"></i>
+                </div>
+                <h3>Booking Confirmed! 🎉</h3>
+                <p class="popup-message"><%= success %></p>
+                <p class="popup-subtext">Your reservation is confirmed. You can view and manage your stays under the <strong>Bookings</strong> tab in your profile.</p>
+                <div class="popup-buttons">
+                    <a href="/profile" class="btn-popup-profile">
+                        <i class="fa-solid fa-user me-2"></i>Go to Profile
+                    </a>
+                    <button onclick="closeCustomPopup()" class="btn-popup-close">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .custom-popup-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.6);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 99999;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+            }
+            .custom-popup-overlay.show {
+                opacity: 1;
+                pointer-events: auto;
+            }
+            .custom-popup-content {
+                background: white;
+                padding: 40px;
+                border-radius: 20px;
+                max-width: 450px;
+                width: 90%;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                transform: scale(0.8);
+                transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            }
+            .custom-popup-overlay.show .custom-popup-content {
+                transform: scale(1);
+            }
+            .popup-icon-container i {
+                font-size: 5rem;
+                color: #28a745;
+                margin-bottom: 20px;
+                display: inline-block;
+                animation: popIcon 0.5s ease;
+            }
+            @keyframes popIcon {
+                0% { transform: scale(0); }
+                90% { transform: scale(1.1); }
+                100% { transform: scale(1); }
+            }
+            .custom-popup-content h3 {
+                font-weight: 800;
+                color: #333;
+                margin-bottom: 10px;
+            }
+            .popup-message {
+                font-size: 1.1rem;
+                color: #555;
+                margin-bottom: 15px;
+            }
+            .popup-subtext {
+                font-size: 0.9rem;
+                color: #777;
+                margin-bottom: 25px;
+            }
+            .popup-buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            .btn-popup-profile {
+                background-color: #28a745;
+                color: white;
+                text-decoration: none;
+                padding: 12px;
+                border-radius: 10px;
+                font-weight: bold;
+                display: block;
+                transition: background-color 0.2s;
+            }
+            .btn-popup-profile:hover {
+                background-color: #218838;
+                color: white;
+            }
+            .btn-popup-close {
+                background: none;
+                border: 1px solid #ccc;
+                padding: 12px;
+                border-radius: 10px;
+                font-weight: bold;
+                color: #555;
+                cursor: pointer;
+                transition: background-color 0.2s;
+                outline: none;
+            }
+            .btn-popup-close:hover {
+                background-color: #f1f1f1;
+            }
+        </style>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const popup = document.getElementById("custom-success-popup");
+                if (popup) {
+                    setTimeout(() => {
+                        popup.classList.add("show");
+                    }, 150);
+                }
+            });
+            function closeCustomPopup() {
+                const popup = document.getElementById("custom-success-popup");
+                if (popup) {
+                    popup.classList.remove("show");
+                }
+            }
+        </script>
+    <% } %>

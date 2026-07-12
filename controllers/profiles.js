@@ -1,12 +1,16 @@
 const Listing = require("../models/listing");
 const Review = require("../models/review");
+const Booking = require("../models/booking");
 
 module.exports.profile = async (req, res) => {
   let allListing = await Listing.find({ owner: req.user._id })
     .populate("owner")
     .sort({ _id: -1 });
   let allReview = await Review.find({ author: req.user._id });
-  res.render("profiles/profile.ejs", { allListing, allReview });
+  let allBooking = await Booking.find({ user: req.user._id })
+    .populate("listing")
+    .sort({ createdAt: -1 });
+  res.render("profiles/profile.ejs", { allListing, allReview, allBooking });
 };
 
 module.exports.allListingDestroy = async (req, res, next) => {

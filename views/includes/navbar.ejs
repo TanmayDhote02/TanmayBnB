@@ -3,10 +3,10 @@
 <nav class="nav-box">
   <div id="nav-main">
     <div id="nav-main-bar">
-      <div class="nav-icon">
+      <div class="nav-icon" style="margin-left: 1.5rem;">
         <a href="/listings" style="display: flex; align-items: center; text-decoration: none;">
-          <img class="imgAirbnb" src="/Icon/name-logo.png" alt="Tanmaybnb">
-          <span style="margin-left: 8px; font-size: 20px; font-weight: bold; color: #FF385C;"></span>
+          <i class="fa-solid fa-house-chimney text-danger me-2" style="font-size: 24px;"></i>
+          <span style="font-size: 24px; font-weight: 800; color: #FF385C; letter-spacing: -0.5px;">StayHest</span>
         </a>
       </div>
       <div class="nav-search nav-hover nav-search-search">
@@ -28,7 +28,7 @@
       </div>
       <div class="user-fnx">
         <a href="/profile">Profile</a>
-        <a href="/listings/new">Tanmaybnb your home</a>
+        <a href="/listings/new">StayHest your home</a>
         <% if (typeof currUser==='undefined' ) { %>
           <a href="/signup">SignUp</a>
           <a href="/login">LogIn</a>

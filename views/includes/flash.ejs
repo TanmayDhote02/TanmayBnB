@@ -53,7 +53,7 @@
 <!-- add on boilerplate -->
 
 
-<% if (typeof success !=='undefined' && success.length) { %>
+<% if (typeof success !=='undefined' && success.length && !success.toString().includes("Booking confirmed!")) { %>
     <div class="alert alert-success alert-dismissible fade show col-8 offset-2" role="alert">
 
         <%= success %>

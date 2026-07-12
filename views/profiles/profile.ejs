@@ -69,6 +69,10 @@
                     <label for="reviBtn"><b>Reviews</b></label>
                     <input type="radio" name="listing" id="reviBtn">
                 </div>
+                <div>
+                    <label for="bookBtn"><b>Bookings</b></label>
+                    <input type="radio" name="listing" id="bookBtn">
+                </div>
             </div>
         </div>
 
@@ -191,6 +195,77 @@
                         </div>
                     </div>
                     <% } %>
+            </div>
+        </div>
+
+        <!-- bookings show -->
+        <div id="booking-box" style="display: none;" data-aos="fade-up" data-aos-duration="1200" data-aos-offset="100">
+            <hr>
+            <div class="listing-count">
+                <h3 class="index-res">@<%= currUser.username %> Booked&nbsp;<b class="text-danger fs-4">
+                            <%= allBooking.length %>
+                        </b>&nbsp;Listings</h3>
+            </div>
+            <div class="row row-cols-xxl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-1 profile-box">
+                <% for (const booking of allBooking) { %>
+                    <% if (booking.listing) { %>
+                    <div class="listing-link">
+                        <div class="card col listing-card index-res shadow-sm" style="border-radius: 12px; overflow: hidden; transition: all 0.3s ease;">
+                            <div class="index-res-img" style="height: 100%;">
+                                <div class="card-img" style="height: 180px; position: relative;">
+                                    <img src="<%= booking.listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 100%; object-fit: cover;" />
+                                    <span class="badge bg-success position-absolute" style="top: 10px; right: 10px; padding: 6px 12px; border-radius: 20px;"><%= booking.status %></span>
+                                </div>
+                                <div class="card-body mt-2 ms-2" style="display: flex; flex-direction: column;">
+                                    <h5 class="card-title text-truncate" style="font-weight: 700; font-size: 1.1rem; display: block !important;">
+                                        <%= booking.listing.title %>
+                                    </h5>
+                                    <p class="card-text text-muted mb-2" style="font-size: 0.9rem; display: block !important;">
+                                        <i class="fa-solid fa-location-dot text-danger me-1"></i><%= booking.listing.location %>, <%= booking.listing.country %>
+                                    </p>
+                                    <hr class="my-2">
+                                    <div class="booking-dates text-dark mb-2" style="font-size: 0.85rem; line-height: 1.4;">
+                                        <div><strong>Check-in:</strong> <%= new Date(booking.checkIn).toLocaleDateString("en-IN", {day: 'numeric', month: 'short', year: 'numeric'}) %></div>
+                                        <div><strong>Check-out:</strong> <%= new Date(booking.checkOut).toLocaleDateString("en-IN", {day: 'numeric', month: 'short', year: 'numeric'}) %></div>
+                                        <div><strong>Guests:</strong> <%= booking.guests %> guest<%= booking.guests > 1 ? 's' : '' %></div>
+                                        <div class="mt-1 text-danger font-weight-bold" style="font-size: 1rem;"><strong>Paid:</strong> &#8377;<%= booking.totalPrice.toLocaleString("en-IN") %></div>
+                                    </div>
+                                </div>
+                                <div class="lists-btn mt-1 d-flex justify-content-between p-2">
+                                    <button class="list-btn list-show" style="width: 45%;"><a href="/listings/<%= booking.listing._id %>">Show</a></button>
+                                    <form method="post" action="/profile/booking/<%= booking._id %>?_method=DELETE" class="needs-validation" style="width: 45%;">
+                                        <button type="reset" class="list-btn list-delete w-100" id="delete-confirm" style="height: 2rem; border-radius: 20px;">Cancel</button>
+                                        <div class="fnx-fixed-dis">
+                                            <div class="delete-fnx" style="display: none;">
+                                                <p>Cancel booking for</p>
+                                                <p>"<%= booking.listing.title %>"?</p>
+                                                <div class="conf cancle-confirm">Back</div>
+                                                <button class="conf delete-confirm">Confirm</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% } else { %>
+                    <div class="listing-link">
+                        <div class="card col listing-card index-res p-3 text-center bg-light">
+                            <p class="text-muted">Listing no longer exists.</p>
+                            <form method="post" action="/profile/booking/<%= booking._id %>?_method=DELETE" class="needs-validation mt-2">
+                                <button type="reset" class="btn btn-sm btn-outline-secondary" id="delete-confirm">Remove Record</button>
+                                <div class="fnx-fixed-dis">
+                                    <div class="delete-fnx" style="display: none;">
+                                        <p>Remove this booking record?</p>
+                                        <div class="conf cancle-confirm">Back</div>
+                                        <button class="conf delete-confirm">Confirm</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <% } %>
+                <% } %>
             </div>
         </div>
         <hr>

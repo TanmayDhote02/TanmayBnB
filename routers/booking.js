@@ -7,4 +7,7 @@ const { isLoggedIn } = require("../middleware.js");
 // Route to handle booking instantly
 router.post("/book", isLoggedIn, wrapAsync(bookingController.createBooking));
 
+// Route to cancel a booking
+router.delete("/bookings/:bookingId", isLoggedIn, wrapAsync(bookingController.destroyBooking));
+
 module.exports = router;

@@ -40,4 +40,10 @@ router.delete(
   wrapAsync(profileController.profileDestroyReview)
 ); //PROFILE Delete One Listing Route-------------
 
+router.delete(
+  "/booking/:bookingId",
+  isLoggedIn,
+  wrapAsync(require("../controllers/booking.js").destroyBooking)
+);
+
 module.exports = router; //export---app.js---------------

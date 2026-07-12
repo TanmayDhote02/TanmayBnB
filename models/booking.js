@@ -12,13 +12,38 @@ const bookingSchema = new Schema({
     ref: "Listing",
     required: true,
   },
+  name: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: String,
+    required: true,
+  },
+  checkIn: {
+    type: Date,
+    required: true,
+  },
+  checkOut: {
+    type: Date,
+    required: true,
+  },
+  guests: {
+    type: Number,
+    required: true,
+    default: 1,
+  },
   price: {
+    type: Number,
+    required: true,
+  },
+  totalPrice: {
     type: Number,
     required: true,
   },
   status: {
     type: String,
-    default: "paid",
+    default: "confirmed",
   },
   createdAt: {
     type: Date,
